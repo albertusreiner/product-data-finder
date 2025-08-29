@@ -1,1 +1,1 @@
-# product-data-finder
+# product-data-scanner
