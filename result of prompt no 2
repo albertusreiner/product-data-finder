@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Barcode Product Lookup</title>
+
+<!-- Bootstrap CSS -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6Gvk/e9T9hz90HKfN36g8uPfOve" crossorigin="anonymous">
+
+<style>
+
+  body {
+
+    background-image: url('background.jpg'); /* Replace with actual image path */
+
+    background-size: cover;
+
+    background-position: center;
+
+  }
+
+  .container {
+
+    max-width: 800px;
+
+    margin: 50px auto;
+
+  }
+
+  .title {
+
+    text-align: center;
+
+    padding: 20px 0;
+
+  }
+
+  .input-group {
+
+    margin-bottom: 20px;
+
+  }
+
+  .result-table {
+
+    overflow-x: auto;
+
+  }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container title">
+
+  <h1>Barcode Product Lookup</h1>
+
+</div>
+
+<div class="container">
+
+  <form id="productForm">
+
+    <div class="input-group mb-3">
+
+      <label for="barcode" class="form-label">Scan Barcode or Enter Product Code:</label>
+
+      <div id="barcodeInput" class="input-group-append">
+
+        <input type="text" class="form-control" id="barcode" placeholder="Enter barcode" aria-describedby="barcodeHelp">
+
+        <button type="button" class="btn btn-outline-secondary" id="scanButton">Scan</button>
+
+      </div>
+
+      <small id="barcodeHelp" class="form-text text-muted">Use your device's camera to scan barcodes.</small>
+
+    </div>
+
+    <div class="input-group mb-3">
+
+      <label for="productName" class="form-label">Product Name:</label>
+
+      <input type="text" class="form-control" id="productName" placeholder="Product Name">
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+  </form>
+
+</div>
+
+<div class="container result-table">
+
+  <h2>Product Details</h2>
+
+  <table id="productTable" class="table">
+
+    <thead>
+
+      <tr>
+
+        <th>ID</th>
+
+        <th>Name</th>
+
+        <th>Price</th>
+
+        <th>Description</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody></tbody>
+
+  </table>
+
+</div>
+
+<!-- Include jsQR library and custom script -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.0.0/jsQR.min.js"></script>
+
+<script>
+
+  const form = document.getElementById('productForm');
+  const barcodeInput = document.getElementById('barcode');
+  const productNameInput = document.getElementById('productName');
+  const productTable = document.getElementById('productTable');
+  const tbody = productTable.getElementsByTagName('tbody')[0];
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const barcode = barcodeInput.value.trim();
+    const productName = productNameInput.value.trim();
+
+    if (barcode || productName) {
+      fetch('/lookup.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ barcode, productName })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.products.length > 0) {
+          displayProducts(data.products);
+        } else {
+          alert('No matching products found.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+  });
+
+  function displayProducts(products) {
+    tbody.innerHTML = '';
+    products.forEach(product => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${product.id}</td>
+        <td>${product.name}</td>
+        <td>${product.price}</td>
+        <td>${product.description}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  // Barcode scanning functionality (example)
+  document.getElementById('scanButton').addEventListener('click', function() {
+    // This is a placeholder. In a real implementation, you'd use the device's camera API.
+    barcodeInput.value = '123456789012'; // Simulate scanning a barcode
+  });
+
+</script>
+
+</body>
+
+</html>
+
+```
+
+**Note:**
+
+- This example assumes you have a PHP backend script at `/lookup.php` that accepts POST requests with JSON data containing `barcode` and `productName`, and returns a JSON response with product details.
+- The barcode scanning functionality is simulated for demonstration purposes. In a real application, you would need to use the device's camera API to scan barcodes.
+- Ensure to replace `'background.jpg'` with the actual path to your background image.
+- The CSS is styled using Bootstrap for responsiveness and basic layout. Adjust as needed for your design.
+
+Remember to set up your PHP backend to handle the requests and return the appropriate JSON response.
