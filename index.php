@@ -97,32 +97,32 @@
                 </tr>
                 <tr>
                     <td>Name<td>
-                    <td><?php if(isset($_SESSION['barcode'])){echo $_SESSION['names'];} else {echo '-';}; ?></td>
+                    <td><?php if(isset($_SESSION['names'])){echo $_SESSION['names'];} else {echo '-';}; ?></td>
 
                 </tr>
                 <tr>
                     <td>Details<td>
-                    <td><?php if(isset($_SESSION['barcode'])){echo $_SESSION['details'];} else {echo '-';}; ?></td>
+                    <td><?php if(isset($_SESSION['details'])){echo $_SESSION['details'];} else {echo '-';}; ?></td>
 
                 </tr>
                 <tr>
                     <td>Price<td>
-                    <td><?php if(isset($_SESSION['barcode'])){echo $_SESSION['unit_price'];} else {echo '-';}; ?></td>
+                    <td><?php if(isset($_SESSION['unit_price'])){echo $_SESSION['unit_price'];} else {echo '-';}; ?></td>
 
                 </tr>
                 <tr>
                     <td>Store Location<td>
-                    <td><?php if(isset($_SESSION['barcode'])){echo $_SESSION['store_location'];} else {echo '-';}; ?></td>
+                    <td><?php if(isset($_SESSION['store_location'])){echo $_SESSION['store_location'];} else {echo '-';}; ?></td>
 
                 </tr>
                 <tr>
                     <td>Date Added<td>
-                    <td><?php if(isset($_SESSION['barcode'])){echo $_SESSION['date_added'];} else {echo '-';}; ?></td>
+                    <td><?php if(isset($_SESSION['date_added'])){echo $_SESSION['date_added'];} else {echo '-';}; ?></td>
 
                 </tr>
                 <tr>
                     <td>Last Edited<td>
-                    <td><?php if(isset($_SESSION['barcode'])){echo $_SESSION['date_edited'];} else {echo '-';}; ?></td>
+                    <td><?php if(isset($_SESSION['date_edited'])){echo $_SESSION['date_edited'];} else {echo '-';}; ?></td>
 
                 </tr>
             </tbody>
@@ -178,3 +178,4 @@
 </body>
 
 </html>
+
